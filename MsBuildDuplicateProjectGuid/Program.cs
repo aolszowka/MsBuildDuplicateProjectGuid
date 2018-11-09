@@ -11,6 +11,7 @@ namespace MsBuildDuplicateProjectGuid
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
 
     class Program
     {
@@ -52,7 +53,16 @@ namespace MsBuildDuplicateProjectGuid
 
         private static int ShowUsage()
         {
-            throw new NotImplementedException();
+            StringBuilder message = new StringBuilder();
+            message.AppendLine("Scans given directory for MsBuild Projects, looking for duplicate ProjectGuids.");
+            message.AppendLine("Invalid Command/Arguments. Valid commands are:");
+            message.AppendLine();
+            message.AppendLine("[directory] - [READS] Spins through the specified directory\n" +
+                               "              and all subdirectories for Project files prints\n" +
+                               "              projects which have duplicated ProjectGuid.\n" +
+                               "              Returns the number of duplicated Guids.");
+            Console.WriteLine(message);
+            return 21;
         }
 
         private static int FindDuplicateGuids(string targetDirectory)
@@ -61,8 +71,12 @@ namespace MsBuildDuplicateProjectGuid
 
             foreach (KeyValuePair<string, ConcurrentBag<string>> kvp in results)
             {
-                string duplicatedProjects = string.Join(",", kvp.Value);
-                Console.WriteLine($"Key `{kvp.Key}` duplicated in projects: {duplicatedProjects}");
+                Console.WriteLine($"Key `{kvp.Key}` duplicated in projects:");
+                foreach (string duplicateProject in kvp.Value)
+                {
+                    Console.WriteLine(duplicateProject);
+                }
+                Console.WriteLine();
             }
 
             return results.Length;
