@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="DuplicateProjectGuid.cs" company="Ace Olszowka">
-//  Copyright (c) Ace Olszowka 2018. All rights reserved.
+//  Copyright (c) Ace Olszowka 2018-2020. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -54,7 +54,13 @@ namespace MsBuildDuplicateProjectGuid
         /// <returns>All projects that this tool supports.</returns>
         internal static IEnumerable<string> GetProjectsInDirectory(string targetDirectory)
         {
-            HashSet<string> supportedFileExtensions = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase) { ".csproj", ".vbproj", ".synproj", ".fsproj" };
+            HashSet<string> supportedFileExtensions = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+            {
+                ".csproj",
+                ".fsproj",
+                ".synproj",
+                ".vbproj",
+            };
 
             return
                 Directory
