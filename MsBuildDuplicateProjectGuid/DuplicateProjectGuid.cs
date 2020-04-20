@@ -58,6 +58,7 @@ namespace MsBuildDuplicateProjectGuid
             {
                 ".csproj",
                 ".fsproj",
+                ".sqlproj",
                 ".synproj",
                 ".vbproj",
             };
