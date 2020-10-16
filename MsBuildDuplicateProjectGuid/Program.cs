@@ -10,6 +10,7 @@ namespace MsBuildDuplicateProjectGuid
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
+    using System.Xml.Linq;
 
     using MsBuildDuplicateProjectGuid.Properties;
 
@@ -21,10 +22,12 @@ namespace MsBuildDuplicateProjectGuid
         {
             string targetDirectory = string.Empty;
             bool showHelp = false;
+            bool xmlOutput = false;
 
             OptionSet p = new OptionSet()
             {
                 { "<>", Strings.TargetDirectoryArgument, v => targetDirectory = v },
+                { "xml", Strings.XmlOutputFlag, v => xmlOutput = v != null },
                 { "?|h|help", Strings.HelpDescription, v => showHelp = v != null },
             };
 
@@ -48,7 +51,21 @@ namespace MsBuildDuplicateProjectGuid
             {
                 if (Directory.Exists(targetDirectory))
                 {
-                    Environment.ExitCode = PrintToConsole(targetDirectory);
+                    KeyValuePair<string, ConcurrentBag<string>>[] results =
+                        DuplicateProjectGuid
+                            .Find(targetDirectory)
+                            .ToArray();
+
+                    if (xmlOutput)
+                    {
+                        PrintXmlToConsole(results);
+                    }
+                    else
+                    {
+                        PrintToConsole(results);
+                    }
+
+                    Environment.ExitCode = results.Length;
                 }
                 else
                 {
@@ -70,11 +87,30 @@ namespace MsBuildDuplicateProjectGuid
             return 21;
         }
 
-        private static int PrintToConsole(string targetDirectory)
+        static void PrintXmlToConsole(IEnumerable<KeyValuePair<string, ConcurrentBag<string>>> duplicateGuids)
         {
-            KeyValuePair<string, ConcurrentBag<string>>[] results = DuplicateProjectGuid.Find(targetDirectory).ToArray();
+            XDocument outputDocument = new XDocument(new XDeclaration("1.0", null, null));
+            outputDocument.Add(new XElement(Strings.ProgramName));
 
-            foreach (KeyValuePair<string, ConcurrentBag<string>> kvp in results)
+            foreach (KeyValuePair<string, ConcurrentBag<string>> duplicateGuid in duplicateGuids)
+            {
+                XElement projectElement = new XElement("Duplicate", new XAttribute("GUID", duplicateGuid.Key));
+                foreach (string duplicatedProject in duplicateGuid.Value)
+                {
+                    XElement duplicatedProjectElement =
+                        new XElement("Project", new XAttribute("Path", duplicatedProject));
+
+                    projectElement.Add(duplicatedProjectElement);
+                }
+                outputDocument.Root.Add(projectElement);
+            }
+
+            Console.WriteLine(outputDocument.ToString());
+        }
+
+        static void PrintToConsole(IEnumerable<KeyValuePair<string, ConcurrentBag<string>>> duplicateGuids)
+        {
+            foreach (KeyValuePair<string, ConcurrentBag<string>> kvp in duplicateGuids)
             {
                 Console.WriteLine($"Key `{kvp.Key}` duplicated in projects:");
                 foreach (string duplicateProject in kvp.Value)
@@ -83,8 +119,6 @@ namespace MsBuildDuplicateProjectGuid
                 }
                 Console.WriteLine();
             }
-
-            return results.Length;
         }
     }
 }

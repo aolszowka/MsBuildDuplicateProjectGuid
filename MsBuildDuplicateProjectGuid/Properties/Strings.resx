@@ -138,4 +138,7 @@ Arguments:</value>
   <data name="TargetDirectoryArgument" xml:space="preserve">
     <value>The directory to scan for MSBuild Projects</value>
   </data>
+  <data name="XmlOutputFlag" xml:space="preserve">
+    <value>Produce Output in XML Format</value>
+  </data>
 </root>

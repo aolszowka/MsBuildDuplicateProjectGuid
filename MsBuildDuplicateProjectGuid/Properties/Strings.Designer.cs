@@ -116,5 +116,14 @@ namespace MsBuildDuplicateProjectGuid.Properties {
                 return ResourceManager.GetString("TargetDirectoryArgument", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Produce Output in XML Format.
+        /// </summary>
+        internal static string XmlOutputFlag {
+            get {
+                return ResourceManager.GetString("XmlOutputFlag", resourceCulture);
+            }
+        }
     }
 }
