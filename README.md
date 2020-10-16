@@ -33,6 +33,7 @@ it finds.
 Arguments:
 
               <>            The directory to scan for MSBuild Projects
+      --xml                  Produce Output in XML Format
   -?, -h, --help             Show this message and exit
 ```
 
