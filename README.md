@@ -25,15 +25,15 @@ However, this tool does not attempt to make corrections. In order to do so look 
 
 ## Usage
 ```
-Usage: MsBuildDuplicateProjectGuid.exe directory
+Usage: MsBuildDuplicateProjectGuid C:\DirectoryWithProjects
 
-Scans given directory for MsBuild Projects, looking for duplicate ProjectGuids.
-Invalid Command/Arguments. Valid commands are:
+Scans given directory for MsBuild Projects; reporting any duplicate ProjectGuids
+it finds.
 
-[directory] - [READS] Spins through the specified directory
-              and all subdirectories for Project files prints
-              projects which have duplicated ProjectGuid.
-              Returns the number of duplicated Guids.
+Arguments:
+
+              <>            The directory to scan for MSBuild Projects
+  -?, -h, --help             Show this message and exit
 ```
 
 ## Hacking
@@ -46,3 +46,6 @@ Pull requests and bug reports are welcomed so long as they are MIT Licensed.
 
 ## License
 This tool is MIT Licensed.
+
+## Third Party Licenses
+This project uses other open source contributions see [LICENSES.md](LICENSES.md) for a comprehensive listing.

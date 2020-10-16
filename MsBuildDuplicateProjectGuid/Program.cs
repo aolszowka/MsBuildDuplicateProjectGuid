@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="Program.cs" company="Ace Olszowka">
-//  Copyright (c) Ace Olszowka 2018. All rights reserved.
+//  Copyright (c) Ace Olszowka 2018-2020. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -10,62 +10,67 @@ namespace MsBuildDuplicateProjectGuid
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
+
+    using MsBuildDuplicateProjectGuid.Properties;
+
+    using NDesk.Options;
 
     class Program
     {
         static void Main(string[] args)
         {
-            int errorCode = 0;
+            string targetDirectory = string.Empty;
+            bool showHelp = false;
 
-            if (args.Any())
+            OptionSet p = new OptionSet()
             {
-                string command = args.First().ToLowerInvariant();
+                { "<>", Strings.TargetDirectoryArgument, v => targetDirectory = v },
+                { "?|h|help", Strings.HelpDescription, v => showHelp = v != null },
+            };
 
-                if (command.Equals("-?") || command.Equals("/?") || command.Equals("-help") || command.Equals("/help"))
-                {
-                    errorCode = ShowUsage();
-                }
-                else
-                {
-                    if (Directory.Exists(command))
-                    {
-                        string targetPath = command;
-                        errorCode = FindDuplicateGuids(targetPath);
-                    }
-                    else
-                    {
-                        string error = string.Format("The specified path `{0}` is not valid.", command);
-                        Console.WriteLine(error);
-                        errorCode = 1;
-                    }
-                }
+            try
+            {
+                p.Parse(args);
+            }
+            catch (OptionException)
+            {
+                Console.WriteLine(Strings.ShortUsageMessage);
+                Console.WriteLine($"Try `{Strings.ProgramName} --help` for more information.");
+                Environment.Exit(21);
+            }
+
+            if (showHelp || string.IsNullOrEmpty(targetDirectory))
+            {
+                int exitCode = ShowUsage(p);
+                Environment.Exit(exitCode);
             }
             else
             {
-                // This was a bad command
-                errorCode = ShowUsage();
+                if (Directory.Exists(targetDirectory))
+                {
+                    Environment.ExitCode = PrintToConsole(targetDirectory);
+                }
+                else
+                {
+                    string error = string.Format(Strings.InvalidDirectoryArgument, targetDirectory);
+                    Console.WriteLine(error);
+                    Environment.ExitCode = 9009;
+                }
             }
-
-            Environment.Exit(errorCode);
         }
 
-        private static int ShowUsage()
+        private static int ShowUsage(OptionSet p)
         {
-            StringBuilder message = new StringBuilder();
-            message.AppendLine("Scans given directory for MsBuild Projects, looking for duplicate ProjectGuids.");
-            message.AppendLine("Invalid Command/Arguments. Valid commands are:");
-            message.AppendLine();
-            message.AppendLine("[directory] - [READS] Spins through the specified directory\n" +
-                               "              and all subdirectories for Project files prints\n" +
-                               "              projects which have duplicated ProjectGuid.\n" +
-                               "              Returns the number of duplicated Guids.");
-            Console.WriteLine(message);
+            Console.WriteLine(Strings.ShortUsageMessage);
+            Console.WriteLine();
+            Console.WriteLine(Strings.LongDescription);
+            Console.WriteLine();
+            Console.WriteLine($"              <>            {Strings.TargetDirectoryArgument}");
+            p.WriteOptionDescriptions(Console.Out);
             return 21;
         }
 
-        private static int FindDuplicateGuids(string targetDirectory)
+        private static int PrintToConsole(string targetDirectory)
         {
             KeyValuePair<string, ConcurrentBag<string>>[] results = DuplicateProjectGuid.Find(targetDirectory).ToArray();
 
