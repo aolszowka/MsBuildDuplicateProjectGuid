@@ -24,23 +24,32 @@ However, this tool does not attempt to make corrections. In order to do so look 
 
 
 ## Usage
+There are now two ways to run this tool:
+
+1. (Compiled Executable) Invoke the tool via `MsBuildDuplicateProjectGuid.exe` and pass the arguments.
+2. (Dotnet Tool) Install this tool using the following command `dotnet tool install MsBuildDuplicateProjectGuid` (assuming that you have the nuget package in your feed) then invoke it via `dotnet duplicate-projectguid`
+
+In both cases the flags are identical to the tooling.
+
 ```
-Usage: MsBuildDuplicateProjectGuid C:\DirectoryWithProjects
+Usage: C:\DirectoryWithProjects
 
 Scans given directory for MsBuild Projects; reporting any duplicate ProjectGuids
 it finds.
 
 Arguments:
 
-              <>            The directory to scan for MSBuild Projects
+              <>             The directory to scan for MSBuild Projects
       --xml                  Produce Output in XML Format
   -?, -h, --help             Show this message and exit
 ```
 
 ## Hacking
-The most likely change you will want to make is changing the supported project files. In theory this tool should support any MSBuild Project Format that utilizes a ProjectGuid.
+The most likely change you will want to make is changing the supported project files. In theory this tool should support any MSBuild Project Format that utilizes a `ProjectGuid`. This means that .NET Core Projects will not work out of the box.
 
-See MsBuildDuplicateProjectGuid.GetProjectsInDirectory(string) for the place to modify this.
+See `MsBuildDuplicateProjectGuid.GetProjectsInDirectory(string)` for the place to modify this.
+
+To assist in testing the `dotnet tool` version of this tool there is a batch file in `build\Update-Package.bat` that will attempt to clean up your NuGet Package Cache (in Windows) and re-install the tool as a local tool.
 
 ## Contributing
 Pull requests and bug reports are welcomed so long as they are MIT Licensed.

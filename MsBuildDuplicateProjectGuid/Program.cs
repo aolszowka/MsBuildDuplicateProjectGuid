@@ -82,7 +82,7 @@ namespace MsBuildDuplicateProjectGuid
             Console.WriteLine();
             Console.WriteLine(Strings.LongDescription);
             Console.WriteLine();
-            Console.WriteLine($"              <>            {Strings.TargetDirectoryArgument}");
+            Console.WriteLine($"              <>             {Strings.TargetDirectoryArgument}");
             p.WriteOptionDescriptions(Console.Out);
             return 21;
         }
