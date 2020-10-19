@@ -7,6 +7,18 @@
     <ProjectGuid>{44361D35-5558-4EBD-B113-A2239C843C77}</ProjectGuid>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Ace Olszowka</Authors>
+    <Description>Utility to find duplicated MsBuild Project GUIDs</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageOutputPath>../nupkg</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/aolszowka/MsBuildDuplicateProjectGuid</PackageProjectUrl>
+    <PackageVersion>2.0.0</PackageVersion>
+    <PackAsTool>true</PackAsTool>
+    <RepositoryUrl>https://github.com/aolszowka/MsBuildDuplicateProjectGuid</RepositoryUrl>
+    <ToolCommandName>duplicate-projectguid</ToolCommandName>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="DuplicateProjectGuid.cs" />
     <Compile Include="MSBuildUtilities.cs" />

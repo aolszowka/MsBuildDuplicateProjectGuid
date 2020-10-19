@@ -133,7 +133,7 @@ Arguments:</value>
     <value>MsBuildDuplicateProjectGuid</value>
   </data>
   <data name="ShortUsageMessage" xml:space="preserve">
-    <value>Usage: MsBuildDuplicateProjectGuid C:\DirectoryWithProjects</value>
+    <value>Usage: C:\DirectoryWithProjects</value>
   </data>
   <data name="TargetDirectoryArgument" xml:space="preserve">
     <value>The directory to scan for MSBuild Projects</value>

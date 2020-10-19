@@ -100,7 +100,7 @@ namespace MsBuildDuplicateProjectGuid.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usage: MsBuildDuplicateProjectGuid C:\DirectoryWithProjects.
+        ///   Looks up a localized string similar to Usage: C:\DirectoryWithProjects.
         /// </summary>
         internal static string ShortUsageMessage {
             get {
