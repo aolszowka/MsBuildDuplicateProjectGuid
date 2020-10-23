@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
 
     steps:
       # Grab The Source Code
@@ -18,7 +20,8 @@ jobs:
         uses: actions/checkout@v2
 
       # Configure Dotnet to push packages to GitHub Package Repo (GPR)
-      - uses: actions/setup-dotnet@v1
+      - name: Configure Dotnet SDK for GitHub Package Repo (GPR)
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: '3.1.x' # SDK Version to use.
           source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
