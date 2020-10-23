@@ -31,7 +31,7 @@ jobs:
 
       # Package the Project
       - name: Package
-        run: dotnet pack --configuration Release --no-build --version-suffix "${{ github.sha }}"
+        run: dotnet pack --configuration Release --no-build --version-suffix "ci-${{ github.sha }}"
 
       # Upload the Asset
       - name: Upload Artifacts to GitHub
