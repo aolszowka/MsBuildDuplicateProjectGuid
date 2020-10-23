@@ -27,7 +27,11 @@ jobs:
 
       # Build the Project
       - name: Build Source
-        run: dotnet build -c Release
+        run: dotnet build --configuration Release
+
+      # Package the Project
+      - name: Package
+        run: dotnet pack --configuration Release --no-build --version-suffix "${{ github.sha }}"
 
       # Upload the Asset
       - name: Upload Artifacts to GitHub
@@ -36,7 +40,6 @@ jobs:
             name: MsBuildDuplicateProjectGuid-${{ github.sha }}
             path: |
               nupkg/*.nupkg
-              MsBuildDuplicateProjectGuid/bin/Release/netcoreapp3.1/publish/*
 
       # Deploy the Package
       - name: Deploy to GitHub Packages
