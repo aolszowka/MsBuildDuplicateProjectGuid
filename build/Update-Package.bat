@@ -1,7 +1,6 @@
 @ECHO OFF
 
 SET PACKAGE_NAME=msbuildduplicateprojectguid
-SET CURRENT_VERSION=2.0.0
 
 pushd ..
 
@@ -29,6 +28,6 @@ dotnet tool uninstall %PACKAGE_NAME%
 
 ECHO.
 ECHO Install the Latest Prerelease
-dotnet tool install --add-source=nupkg --no-cache %PACKAGE_NAME% --version=%CURRENT_VERSION%-dev
+dotnet tool install --add-source=nupkg --no-cache %PACKAGE_NAME% --version=*-*
 
 popd
