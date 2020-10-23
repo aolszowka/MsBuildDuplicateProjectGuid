@@ -29,7 +29,16 @@ jobs:
       - name: Build Source
         run: dotnet build -c Release
 
+      # Upload the Asset
+      - name: Upload Artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+            name: MsBuildDuplicateProjectGuid-${{ github.sha }}
+            path: |
+              nupkg/*.nupkg
+              MsBuildDuplicateProjectGuid/bin/Release/netcoreapp3.1/publish/*
+
       # Deploy the Package
-      - name: Deploy
+      - name: Deploy to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo perform a deploy if on main!
