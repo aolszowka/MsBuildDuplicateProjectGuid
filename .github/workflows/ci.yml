@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+#  pull_request:
+#    branches:
+#      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Grab The Source Code
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Restore all of our .NET Core Local Tools
+      - name: .NET Core Local Tool Restore
+        run: dotnet tool restore --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json
+
+      # Verify that the code is formatted correctly
+      - name: Format Files
+        run: dotnet format --fix-style warn --fix-analyzers warn --check
+
+      # Build the Project
+      - name: Build Source
+        run: dotnet build -c Release
+
+      # Deploy the Package
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: echo perform a deploy if on main!
