@@ -697,7 +697,9 @@ namespace NDesk.Options {
 			bool process = true;
 			OptionContext c = CreateOptionContext ();
 			c.OptionIndex = -1;
+#pragma warning disable CS0618 // Type or member is obsolete
 			var def = GetOptionForName ("<>");
+#pragma warning restore CS0618 // Type or member is obsolete
 			var unprocessed = 
 				from argument in arguments
 				where ++c.OptionIndex >= 0 && (process || def != null)
