@@ -56,6 +56,6 @@ jobs:
             if-no-files-found: error
 
       # Publish the Package, but only if on Master
-      - name: Publish the package to GPR
+      - name: Publish the package to GPR (Release ONLY)
         if: ${{ github.ref == 'refs/heads/master' }}
         run: echo dotnet nuget push nupkg/*.nupkg
