@@ -10,14 +10,14 @@
   <PropertyGroup>
     <Authors>Ace Olszowka</Authors>
     <Description>Utility to find duplicated MsBuild Project GUIDs</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageOutputPath>../nupkg</PackageOutputPath>
     <PackageProjectUrl>https://github.com/aolszowka/MsBuildDuplicateProjectGuid</PackageProjectUrl>
-    <PackageVersion>2.0.0</PackageVersion>
     <PackAsTool>true</PackAsTool>
     <RepositoryUrl>https://github.com/aolszowka/MsBuildDuplicateProjectGuid</RepositoryUrl>
     <ToolCommandName>duplicate-projectguid</ToolCommandName>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DuplicateProjectGuid.cs" />
