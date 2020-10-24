@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - '*'
-#  pull_request:
-#    branches:
-#      - '*'
 
 jobs:
   build:
@@ -40,15 +37,25 @@ jobs:
       - name: Build Source
         run: dotnet build --configuration Release
 
-      # Package the Project
-      - name: Package
+      # Package the Project (CI/Branch)
+      - name: Package (Branch)
+        if: ${{ github.ref != 'refs/heads/master' }}
         run: dotnet pack --configuration Release --no-build --version-suffix "ci-${{ github.sha }}"
 
-      # Publish the Package
-      - name: Publish the package to GPR
-        run: dotnet nuget push nupkg/*.nupkg
+      # Package the Project (master/Release)
+      - name: Package (Release)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: dotnet pack --configuration Release --no-build
 
-      # Deploy the Package
-      - name: Deploy to GitHub Packages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: echo perform a deploy if on main!
+      # Always Upload the Assets
+      - name: Upload Artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+            name: ${{ github.event.repository.name }}-${{ github.sha }}
+            path: nupkg/*.nupkg
+            if-no-files-found: error
+
+      # Publish the Package, but only if on Master
+      - name: Publish the package to GPR
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: echo dotnet nuget push nupkg/*.nupkg
