@@ -1,4 +1,6 @@
 # MsBuildDuplicateProjectGuid
+![CI - Master](https://github.com/aolszowka/MsBuildDuplicateProjectGuid/workflows/CI/badge.svg?branch=master)
+
 Utility to find duplicated MsBuild Project GUIDs
 
 ## Background
